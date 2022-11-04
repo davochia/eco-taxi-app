@@ -1,0 +1,50 @@
+server:
+  port: 9000
+  error:
+    include-message: always
+    include-binding-errors: always
+  tomcat:
+    accesslog:
+      enabled: true
+#################### Logs #######################
+
+logging:
+  level:
+    root: WARN
+    org:
+      apache:
+        tomcat: DEBUG
+        catalina: DEBUG
+
+spring:
+  application:
+    name: eco-taxi-server
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_DB:eco-taxi-db}
+    username: ${POSTGRES_USER:eco-taxi-postgres}
+    password: ${POSTGRES_PASSWORD:eco-taxi-postgres}
+    driver-class-name: org.postgresql.Driver
+    platform: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+### Postgres Docker image
+#docker run --name myPostgresDb -p 5432:5432 -e POSTGRES_USER=book-postgres -e POSTGRES_PASSWORD=book-postgres -e POSTGRES_DB=book-postgres-db -d postgres
+
+################# Swagger ########################
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
